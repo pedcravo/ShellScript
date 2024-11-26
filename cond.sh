@@ -1,11 +1,20 @@
 #!/bin/bash
-
-clear
+# ./cond.sh para executar o shell
 
 while :
 do
     while [ "$repete" != 0 ]
     do
+        clear
+        echo ""
+        echo "__________               .__             .__  .__ "
+        echo "\______   \_____    _____|  |__     ____ |  | |__|"
+        echo " |    |  _/\__  \  /  ___/  |  \  _/ ___\|  | |  |"
+        echo " |    |   \ / __ \_\___ \|   Y  \ \  \___|  |_|  |"  # Arte feita com: https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Bash%20cli
+        echo " |______  /(____  /____  >___|  /  \___  >____/__|"
+        echo "        \/      \/     \/     \/       \/         "
+        echo ""
+
         echo "Digite uma opção:"
         echo " 1 = História com if"
         echo " 2 = Loop for 1"
@@ -17,11 +26,13 @@ do
         echo " 8 = Verificar arquivo o tem no arquivo com if"
         echo " 9 = Criação de arquivo temporário com mktemp"
         echo "10 = Criação de arquivo e diretório"
+        echo "11 = Status da CPU com for"
+        echo "12 = Reversão de palavras com rev"
         echo " 0 = Sair"
         read num
         echo ""
 
-        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 0 ]
+        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 0 ]
         then repete=0    
         else
             repete=1
@@ -48,6 +59,7 @@ do
 
         echo "Recentemente, ${char} foi visto em ${local} comendo ${food}!"
         echo ""
+        num=0
     
     elif [ $num -eq 2 ]
     then
@@ -60,6 +72,7 @@ do
             fi
         done
         echo ""
+        num=0
 
     elif [ $num -eq 3 ]
     then
@@ -74,6 +87,7 @@ do
 	        echo $i
         done
         echo ""
+        num=0
 
     elif [ $num -eq 4 ]
     then
@@ -89,6 +103,7 @@ do
             d=$(( d+1 ))
         done
         echo ""
+        num=0
 
     elif [ $num -eq 5 ]
     then
@@ -100,6 +115,8 @@ do
             echo "Você digitou $someText"
             echo ""
         done
+        echo ""
+        num=0
 
     elif [ $num -eq 6 ]
     then
@@ -114,6 +131,8 @@ do
             echo "Você digitou $someString"
             echo ""
         done
+        echo ""
+        num=0
     
     elif [ $num -eq 7 ]
     then
@@ -139,7 +158,9 @@ do
         else
             echo "Não sei o que \$pala ($pala) é"
         fi
+        
         echo ""
+        num=0
 
     elif [ $num -eq 8 ]
     then
@@ -376,6 +397,74 @@ do
                 fi
             fi
         fi
+        echo ""
+        num=0
+
+    elif [ $num -eq 11 ]
+    then
+        echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
+        echo "OBS: Deve ser > 0"
+        read rep
+        echo ""
+        echo "Qual o intervalo em segundos entre os monitoramentos?"
+        echo "OBS: Ideal que seja > 1"
+        read seg
+        echo ""
+        date +'%A %d/%b/%y'
+
+        for (( i=0; i<rep; i++ ))
+        do
+            date +%H:%M:%S
+            echo "Uso da CPU: $(top -bn1 | grep -i cpu'(s)' | awk '{print $2}')"
+            echo "Uso da memória: $(free -h | grep -i mem | awk '{print $3}')"
+            echo "Espaço no disco /: $(df -h | grep /$ | awk '{print $4}')"
+            echo ""
+            if (( i!= (rep-1) ))
+            then
+                sleep $seg
+            fi
+        done
+        num=0
+    elif [ $num -eq 12 ]
+    then
+        rev_p=nao
+        if [[ $# > 1 ]]
+        then
+            echo "Tem $# paramentros, que são:"
+            for i in "$@"   # for (( i=1; i<$@; i++ ))
+            do
+                echo $i
+            done
+            echo ""
+
+            echo "Deseja concatenar e usar esses $# parametros?"
+            read rev_p
+            echo ""
+
+        elif [[ $# = 1 ]]
+        then
+            echo "Tem 1 parametro"
+            echo "Deseja reverter $1?"
+            read rev_p
+            echo ""
+
+        else
+            echo "Não tem parametros"
+            echo ""
+        fi
+        
+        if [[ ${rev_p,,} != sim && ${rev_p,,} != s && ${rev_p,,} != yes && ${rev_p,,} != y ]]
+        then
+            echo "Qual vai ser a palavra revertida?"
+            read pala
+            echo ""
+        else
+            pala=$@
+        fi
+
+        echo "Sua palavra revertida é:"
+        rev <<< $pala
+
         echo ""
         num=0
 
