@@ -19,23 +19,24 @@ do
 
         echo "Digite uma opção:"
         echo " 1 = História com if"
-        echo " 2 = Loop for 1"
-        echo " 3 = Loop for 2"
-        echo " 4 = Loop while 1"
-        echo " 5 = Loop while 2"
-        echo " 6 = Loop while 3"
-        echo " 7 = Verificar se há arquivo com if"
-        echo " 8 = Verificar arquivo o tem no arquivo com if"
-        echo " 9 = Criação de arquivo temporário com mktemp"
-        echo "10 = Criação de arquivo e diretório"
-        echo "11 = Status da CPU com for"
-        echo "12 = Reversão de palavras com rev"
-        echo "13 = Mostrar parâmetros com biblioteca"
+        echo " 2 = História com if 2"
+        echo " 3 = Loop for 1"
+        echo " 4 = Loop for 2"
+        echo " 5 = Loop while 1"
+        echo " 6 = Loop while 2"
+        echo " 7 = Loop while 3"
+        echo " 8 = Verificar se há arquivo com if"
+        echo " 9 = Verificar arquivo o tem no arquivo com if"
+        echo "10 = Criação de arquivo temporário com mktemp"
+        echo "11 = Criação de arquivo e diretório"
+        echo "12 = Status da CPU com for"
+        echo "13 = Reversão de palavras com rev"
+        echo "14 = Mostrar parâmetros com biblioteca"
         echo " 0 = Sair"
         read num
         echo ""
 
-        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 0 ]
+        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 14 -o $num -eq 0 ]
         then repete=0    
         else
             repete=1
@@ -63,8 +64,21 @@ do
         echo "Recentemente, ${char} foi visto em ${local} comendo ${food}!"
         echo ""
         num=0
-    
     elif [ $num -eq 2 ]
+    then
+        char=${1:-Pedro}
+        local=${2:-Vv}
+        food=${3:-Pizza}
+
+        echo "Personagem = $char"
+        echo "Local = $local"
+        echo "Comida = $food"
+        echo ""
+        echo "Recentemente, ${char} foi visto em ${local} comendo ${food}!"
+        echo ""
+        num=0
+
+    elif [ $num -eq 3 ]
     then
         for (( COUNTER=100; COUNTER>0; COUNTER-- )) do
             if [ $COUNTER -eq 50 ]
@@ -77,7 +91,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 3 ]
+    elif [ $num -eq 4 ]
     then
         echo O primeiro argumento é $1
         echo O segundo argumento é $2
@@ -92,7 +106,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 4 ]
+    elif [ $num -eq 5 ]
     then
         d=1
         while (( $d <= 100 ))
@@ -108,7 +122,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 5 ]
+    elif [ $num -eq 6 ]
     then
         while :
         do
@@ -121,7 +135,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 6 ]
+    elif [ $num -eq 7 ]
     then
         someString=begin
         while [ "$someString" != "quit" ]
@@ -137,7 +151,7 @@ do
         echo ""
         num=0
     
-    elif [ $num -eq 7 ]
+    elif [ $num -eq 8 ]
     then
         read -p "Me diga o que você quer que eu descubra: " pala
         echo ""
@@ -165,7 +179,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 8 ]
+    elif [ $num -eq 9 ]
     then
         echo "Seu diretório atual é ${PWD}"
         echo "Use ele como base para o caminho do arquivo ou diretório."
@@ -187,7 +201,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 9 ]
+    elif [ $num -eq 10 ]
     then
         echo "Deseja criar um diretório temp, um arquivo temp ou os dois?"
         echo "dir = Diretório temporário"
@@ -267,7 +281,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 10 ]
+    elif [ $num -eq 11 ]
     then
         if [ $# -ne 2 ]
         then
@@ -403,7 +417,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 11 ]
+    elif [ $num -eq 12 ]
     then
         echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
         echo "OBS: Deve ser > 0"
@@ -428,7 +442,7 @@ do
             fi
         done
         num=0
-    elif [ $num -eq 12 ]
+    elif [ $num -eq 13 ]
     then
         rev_p=nao
         if [[ $# > 1 ]]
@@ -471,8 +485,9 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 13 ]
+    elif [ $num -eq 14 ]
     then
+
     mostrar_param $@
     echo ""
     num=0
