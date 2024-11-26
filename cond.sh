@@ -1,6 +1,8 @@
 #!/bin/bash
 # ./cond.sh para executar o shell
 
+source biblioteca.sh
+
 while :
 do
     while [ "$repete" != 0 ]
@@ -28,11 +30,12 @@ do
         echo "10 = Criação de arquivo e diretório"
         echo "11 = Status da CPU com for"
         echo "12 = Reversão de palavras com rev"
+        echo "13 = Mostrar parâmetros com biblioteca"
         echo " 0 = Sair"
         read num
         echo ""
 
-        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 0 ]
+        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 0 ]
         then repete=0    
         else
             repete=1
@@ -467,6 +470,12 @@ do
 
         echo ""
         num=0
+
+    elif [ $num -eq 13 ]
+    then
+    mostrar_param $@
+    echo ""
+    num=0
 
     elif [ $num -eq 0 ]
     then
