@@ -1,13 +1,14 @@
 #!/bin/bash
 # ./cond.sh para executar o shell
 
-source biblioteca.sh
+source biblioteca.sh || { echo "Erro ao carregar biblioteca.sh"; exit 1; }
 
 while :
 do
     while [ "$repete" != 0 ]
     do
         clear
+        
         echo ""
         echo "__________               .__             .__  .__ "
         echo "\______   \_____    _____|  |__     ____ |  | |__|"
@@ -18,25 +19,24 @@ do
         echo ""
 
         echo "Digite uma opção:"
-        echo " 1 = História com if"
-        echo " 2 = História com if 2"
-        echo " 3 = Loop for 1"
-        echo " 4 = Loop for 2"
-        echo " 5 = Loop while 1"
-        echo " 6 = Loop while 2"
-        echo " 7 = Loop while 3"
-        echo " 8 = Verificar se há arquivo com if"
-        echo " 9 = Verificar arquivo o tem no arquivo com if"
-        echo "10 = Criação de arquivo temporário com mktemp"
-        echo "11 = Criação de arquivo e diretório"
-        echo "12 = Status da CPU com for"
-        echo "13 = Reversão de palavras com rev"
-        echo "14 = Mostrar parâmetros com biblioteca"
+        echo " 1 = História com IF e parâmetros prédefinidos"
+        echo " 2 = História parâmetros prédefinidos e padrão"
+        echo " 3 = Contador de parâmetros e caracteres com FOR"
+        echo " 4 = Contador decrescente com FOR"
+        echo " 5 = Contador crescente com WHILE"
+        echo " 6 = Loop de cli com WHILE"
+        echo " 7 = Verificar se arquivo ou diretório existe IF"
+        echo " 8 = Visualizar o que há no arquivo ou diretório com IF, CAT e LS"
+        echo " 9 = Criar diretório e arquivo temporários com IF e MKTEMP"
+        echo "10 = Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
+        echo "11 = Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
+        echo "12 = Reverter palavras com REV e IF"
+        echo "13 = Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
         echo " 0 = Sair"
         read num
         echo ""
 
-        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 14 -o $num -eq 0 ]
+        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 0 ]
         then repete=0    
         else
             repete=1
@@ -44,28 +44,30 @@ do
     done
 
     if [ $num -eq 1 ]
-    then
+    then echo "História com IF e parâmetros prédefinidos"
+        echo ""
+
         char=$1
         local=$2
         food=$3
 
         if test -z ${char}; then read -p "Qual o nome do personagem? " char; fi
         echo "Personagem = $char"
-        echo ""
 
-        if test -z ${local}; then read -p "Qual é o nome do local? " local; fi
+        if test -z ${local}; then echo ""; read -p "Qual é o nome do local? " local; fi
         echo "Local = $local"
-        echo ""
 
-        if test -z ${food}; then read -p "Qual a sua comida favorita? " food; fi
+        if test -z ${food}; then echo ""; read -p "Qual a sua comida favorita? " food; fi
         echo "Comida = $food"
-        echo ""
 
+        echo ""
         echo "Recentemente, ${char} foi visto em ${local} comendo ${food}!"
         echo ""
         num=0
     elif [ $num -eq 2 ]
-    then
+    then echo "História parâmetros prédefinidos e padrão"
+        echo ""
+
         char=${1:-Pedro}
         local=${2:-Vv}
         food=${3:-Pizza}
@@ -79,7 +81,29 @@ do
         num=0
 
     elif [ $num -eq 3 ]
-    then
+    then echo "Contador de parâmetros e caracteres com FOR"
+        echo ""
+
+        echo O primeiro parâmetros é ${1:?Parâmetro 1 não fornecido!}
+        echo O segundo parâmetros é ${2:?Parâmentro 2 não fornecido!}
+        echo O terceiro parâmetros é ${3:?Parâmentro 3 não fornrcido!}
+        echo ""
+        echo Você usou os seguintes $# parâmetros:
+        count=(0)
+
+        for i in "$@"
+        do  
+	        echo $i
+            count=$((count+${#i}))
+        done
+        echo Total de caracteres: $count
+        echo ""
+        num=0
+
+    elif [ $num -eq 4 ]
+    then echo "Contador decrescente com FOR"
+        echo ""
+
         for (( COUNTER=100; COUNTER>0; COUNTER-- )) do
             if [ $COUNTER -eq 50 ]
             then
@@ -91,74 +115,55 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 4 ]
-    then
-        echo O primeiro argumento é $1
-        echo O segundo argumento é $2
-        echo O terceiro argumento é $3
-        echo Você usou $# arumentos
-        echo ""
-
-        for i in "$@"
-        do
-	        echo $i
-        done
-        echo ""
-        num=0
-
     elif [ $num -eq 5 ]
-    then
-        d=1
-        while (( $d <= 100 ))
+    then echo "Contador crescente com WHILE"
+        echo ""
+        
+        i=1
+        while (( $i <= 100 ))
             do
-            if [ $d = 50 ]
+            if [ $i = 50 ]
             then
-                echo "\$d = $d <--------------------"
+                echo "\$i = $i <--------------------"
             else
-                echo "\$d = $d"
+                echo "\$i = $i"
             fi
-            d=$(( d+1 ))
+            i=$(( i+1 ))
         done
         echo ""
         num=0
 
     elif [ $num -eq 6 ]
-    then
-        while :
-        do
-            echo "Você pode inserir texto e pressionar Enter quantas vezes quiser."
-            echo "(Sair somente usando Ctrl+c)"
-            read someText
-            echo "Você digitou $someText"
-            echo ""
-        done
+    then echo "Loop de cli com WHILE"
         echo ""
-        num=0
-
-    elif [ $num -eq 7 ]
-    then
-        someString=begin
-        while [ "$someString" != "quit" ]
+        
+        string_repete=loop
+        i=1
+        while [[ ${string_repete,,} != "sair" ]]
             do
+            echo "Quantidade de vezes vistas: $i"
+            echo "Você pode inserir qualquer texto e pressionar Enter quantas vezes quiser."
+            echo "(Digite \"sair\" para sair do loop)"
+            read string_repete
             echo ""
-            echo "Loop while"
-            echo "Você pode inserir texte e pressionar Enter quantas vezes quiser."
-            echo "(Digite \"quit\" para sair do loop)"
-            read someString
-            echo "Você digitou $someString"
-            echo ""
+            echo "Ultima palavra digitada: $string_repete"
+            i=$(( i+1 ))
         done
         echo ""
         num=0
     
-    elif [ $num -eq 8 ]
-    then
-        read -p "Me diga o que você quer que eu descubra: " pala
+    elif [ $num -eq 7 ]
+    then echo "Verificar se arquivo ou diretório existe IF"
+        echo ""
+
+        echo "Seu diretório atual é $PWD"
+        echo "Me diga o caminho do diretório ou arquivo e te direi se ele existe:"
+        read pala
         echo ""
 
         if test -f $pala
         then
-            echo "$pala é um arquivo"
+            echo "$pala existe e é um arquivo"
         
             #test -d ${pala}
             #test_r=$?
@@ -170,25 +175,27 @@ do
 
         elif [ -d $pala ]
         then
-            echo "$pala é um diretório"
+            echo "$pala existe e é um diretório"
  
         else
-            echo "Não sei o que \$pala ($pala) é"
+            echo "Não encontrei o arquivo ou diretório $pala."
         fi
         
         echo ""
         num=0
 
-    elif [ $num -eq 9 ]
-    then
+    elif [ $num -eq 8 ]
+    then echo "Visualizar o que há no arquivo ou diretório com IF, CAT e LS"
+        echo ""
+
         echo "Seu diretório atual é ${PWD}"
-        echo "Use ele como base para o caminho do arquivo ou diretório."
+        echo "Use ele como exemplo para escrever o caminho do arquivo ou diretório."
         echo "Qual o arquivo ou diretório?"
         read arquivo
         echo ""
 
         if [[ ! -e ${arquivo} ]]; then
-            echo "O caminho do arquivo ou diretório deve estar errado."
+            echo "O caminho do arquivo ou diretório deve estar errado, verifique com a opção 7."
         else
             if [[ ! -d ${arquivo} ]]; then
                 echo "O arquivo existe, mostrando agora o que há nele:"
@@ -201,8 +208,10 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 10 ]
-    then
+    elif [ $num -eq 9 ]
+    then echo "Criar diretório e arquivo temporários com IF e MKTEMP"
+        echo ""
+
         echo "Deseja criar um diretório temp, um arquivo temp ou os dois?"
         echo "dir = Diretório temporário"
         echo "arq = Arquivo temporário"
@@ -216,12 +225,12 @@ do
             read dirtemp
             
             echo ""
-            echo "Diretório criado com o nome: "
             mktemp -d ${dirtemp}XXX
-            mktemp_rc=$?
+            mktemp_dir=$?
             echo ""
-            echo "O comando mktemp retornou: ${mktemp_rc}"
-            if [[ $mktemp_rc = 0 ]]
+
+            echo "O comando mktemp retornou: ${mktemp_dir}"
+            if [[ $mktemp_dir = 0 ]]
             then
                 echo "Foi possivel criar o diretório temporário."
             else
@@ -233,28 +242,31 @@ do
             echo "Qual vai ser o nome do arquivo temporário?"
             read arqtemp
             echo ""
-            echo "Arquivo criado com o nome: ${arqtemp}"
+
             mktemp ${arqtemp}XXX
-            mktemp_rc=$?
+            mktemp_arq=$?
             echo ""
-            echo "O comando mktemp retornou: ${mktemp_rc}"
-            if [[ $mktemp_rc = 0 ]]
+
+            echo "O comando mktemp retornou: ${mktemp_arq}"
+            if [[ $mktemp_arq = 0 ]]
             then
                 echo "Foi possivel criar o arquivo temporário."
             else
                 echo "Não foi possivel criar o arquivo temporário. "
             fi
 
-        else
+        elif [ $temp = duo ]
+        then
             echo "Qual vai ser o nome do diretório temporário?"
             read dirtemp
             echo ""
-            echo "Arquivo criado com o nome: ${dirtemp}"
+
             mktemp -d ${dirtemp}XXX
-            mktemp_rc=$?
+            mktemp_dir=$?
             echo ""
-            echo "O comando mktemp retornou: ${mktemp_rc}"
-            if [[ $mktemp_rc = 0 ]]
+
+            echo "O comando mktemp retornou: ${mktemp_dir}"
+            if [[ $mktemp_dir = 0 ]]
             then
                 echo "Foi possivel criar o diretório temporário."
                 echo ""
@@ -262,12 +274,13 @@ do
                 echo "Qual vai ser o nome do arquivo temporário?"
                 read arqtemp
                 echo ""
-                echo "Arquivo criado com o nome: ${arqtemp}"
+
                 mktemp ${arqtemp}XXX
-                mktemp_rc=$?
+                mktemp_arq=$?
                 echo ""
-                echo "O comando mktemp retornou: ${mktemp_rc}"
-                if [[ $mktemp_rc = 0 ]]
+
+                echo "O comando mktemp retornou: ${mktemp_arq}"
+                if [[ $mktemp_arq = 0 ]]
                 then
                     echo "Foi possivel criar o arquivo temporário."
                 else
@@ -281,11 +294,17 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 11 ]
-    then
+    elif [ $num -eq 10 ]
+    then echo "Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
+        echo ""
+
+        diretorio=$1
+        arquivo=$2
+
         if [ $# -ne 2 ]
         then
-            echo "Seu diretório atual é ${PWD}"
+            echo "Seu local atual é ${PWD}"
+            echo "Vamos criar o diretório neste local."
             echo "Qual vai ser o nome do diretório?"
             read diretorio
             echo " "
@@ -293,132 +312,149 @@ do
             mkdir ${PWD}/${diretorio}
             mkdir_rc=$?
             echo ""
+
             echo "O comando mkdir retornou: $mkdir_rc"
             if [[ $mkdir_rc = 0 ]]
             then
-                echo "Foi possivel criar o diretório ${diretorio}."
-            else
-                echo "Não foi possivel criar o diretório ${diretorio}."
-            fi
+                echo "Foi possivel criar o diretório $diretorio."
+                echo ""
 
-            test -d ${PWD}/${diretorio}
-            test_rc=$?
-            echo ""
-            echo "Já o test retornou: ${test_rc}"
+                test -d ${PWD}/${diretorio}
+                test_rc=$?
+            else
+                echo "Não foi possivel criar o diretório $diretorio."
+                echo ""
+
+                echo "Verificando se o diretório já existe ..."
+                test -d ${PWD}/${diretorio}
+                test_rc=$?
+                echo ""
+            fi
+           
             if [[ $test_rc = 0 ]]
             then
-                echo "O diretório ${diretorio} existe."
-            else
-                echo "O diretório ${diretorio} não existe."
-            fi
-            echo ""
+                echo "O diretório $diretorio existe."
 
-            echo "Qual vai ser o nome do arquivo?"
-            echo "O arquivo vai ser criado dentro do ${PWD}/${diretorio}."
-            read arquivo
+                touch ${PWD}/${diretorio}/${arquivo}
+                touch_rc=$?
+                echo ""
 
-            touch ${PWD}/${diretorio}/${arquivo}
-            touch_rc=$?
-            echo ""
-            echo "O comando touch retornou: ${touch_rc}"
-            if [[ $touch_rc -eq 0 ]]
-            then
-                echo "Foi possivel criar o arquivo ${arquivo}."
+                echo "O comando touch retornou: ${touch_rc}"
+                if [[ $touch_rc -eq 0 ]]
+                then
+                    echo "Foi possivel criar o arquivo $arquivo."
+                else
+                    echo "Não foi possivel criar o arquivo $arquivo."
+                fi
             else
-                echo "Não foi possivel criar o arquivo ${arquivo}."
+                echo "O diretório $diretorio não existe."
             fi
 
         else
-            echo "Deseja criar um diretório com o nome $1 e um arquivo com $2?"
+            echo "Deseja criar um diretório com o nome $diretorio e um arquivo com $arquivo?"
             echo "(Digite \"sim\" para cria-los)"
             read criardir
             echo ""
 
-            if [[ $criardir = sim ]]
+            if [[ ${criardir,,} != sim && ${criardir,,} != s ]]
             then
-                mkdir ${PWD}/${1}
+                mkdir ${PWD}/${diretorio}
                 mkdir_rc=$?
                 echo ""
+
                 echo "O comando mkdir retornou: $mkdir_rc"
                 if [[ $mkdir_rc = 0 ]]
                 then
-                    echo "Foi possivel criar o diretório ${1}."
+                    echo "Foi possivel criar o diretório $diretorio."
+                    echo ""
+
+                    test -d ${PWD}/${diretorio}
+                    test_rc=$?
                 else
-                    echo "Não foi possivel criar o diretório ${1}."
+                    echo "Não foi possivel criar o diretório $diretorio."
+                    echo ""
+
+                    echo "Verificando se o diretório já existe ..."
+                    test -d ${PWD}/${diretorio}
+                    test_rc=$?
+                    echo ""
                 fi
 
-                test -d ${PWD}/${1}
-                test_rc=$?
-                echo ""
-                echo "Já o test retornou: ${test_rc}"
                 if [[ $test_rc = 0 ]]
                 then
-                    echo "O diretório ${1} existe."
+                    echo "O diretório $diretorio existe."
 
-                    touch ${PWD}/${diretorio}/${2}
+                    touch ${PWD}/${diretorio}/${arquivo}
                     touch_rc=$?
                     echo ""
+                    
                     echo "O comando touch retornou: ${touch_rc}"
                     if [[ $touch_rc -eq 0 ]]
                     then
-                        echo "Foi possivel criar o arquivo ${2}."
+                        echo "Foi possivel criar o arquivo $arquivo."
                     else
-                        echo "Não foi possivel criar o arquivo ${2}."
+                        echo "Não foi possivel criar o arquivo $arquivo."
                     fi
                 else
-                    echo "O diretório ${diretorio} não existe."
+                    echo "O diretório $diretorio não existe."
                 fi
-                echo ""
+
             else
-                echo "Seu diretório atual é ${PWD}"
-                echo "Qual vai ser o nome do diretório?"
+                echo "Seu local atual é ${PWD}"
+                echo "Vamos criar o diretório neste local."
+                echo "Qual\ vai ser o nome do diretório?"
                 read diretorio
                 echo " "
 
                 mkdir ${PWD}/${diretorio}
                 mkdir_rc=$?
                 echo ""
+
                 echo "O comando mkdir retornou: $mkdir_rc"
                 if [[ $mkdir_rc = 0 ]]
                 then
-                    echo "Foi possivel criar o diretório ${diretorio}."
+                    echo "Foi possivel criar o diretório $diretorio."
+                    echo ""
+
+                    test -d ${PWD}/${diretorio}
+                    test_rc=$?
                 else
-                    echo "Não foi possivel criar o diretório ${diretorio}."
+                    echo "Não foi possivel criar o diretório $diretorio."
+                    echo ""
+
+                    echo "Verificando se o diretório já existe ..."
+                    test -d ${PWD}/${diretorio}
+                    test_rc=$?
+                    echo ""
                 fi
 
-                test -d ${PWD}/${diretorio}
-                test_rc=$?
-                echo ""
-                echo "Já o test retornou: ${test_rc}"
                 if [[ $test_rc = 0 ]]
                 then
-                    echo "O diretório ${diretorio} existe."
-                else
-                    echo "O diretório ${diretorio} não existe."
-                fi
-                echo ""
+                    echo "O diretório $diretorio existe."
 
-                echo "Qual vai ser o nome do arquivo?"
-                echo "O arquivo vai ser criado dentro do ${PWD}/${diretorio}."
-                read arquivo
+                    touch ${PWD}/${diretorio}/${arquivo}
+                    touch_rc=$?
+                    echo ""
 
-                touch ${PWD}/${diretorio}/${arquivo}
-                touch_rc=$?
-                echo ""
-                echo "O comando touch retornou: ${touch_rc}"
-                if [[ $touch_rc -eq 0 ]]
-                then
-                    echo "Foi possivel criar o arquivo ${arquivo}."
+                    echo "O comando touch retornou: ${touch_rc}"
+                    if [[ $touch_rc -eq 0 ]]
+                    then
+                        echo "Foi possivel criar o arquivo $arquivo."
+                    else
+                        echo "Não foi possivel criar o arquivo $arquivo."
+                    fi
                 else
-                    echo "Não foi possivel criar o arquivo ${arquivo}."
+                    echo "O diretório $diretorio não existe."
                 fi
             fi
         fi
         echo ""
         num=0
 
-    elif [ $num -eq 12 ]
-    then
+    elif [ $num -eq 11 ]
+    then echo "Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
+        echo""
+
         echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
         echo "OBS: Deve ser > 0"
         read rep
@@ -442,8 +478,10 @@ do
             fi
         done
         num=0
-    elif [ $num -eq 13 ]
-    then
+    elif [ $num -eq 12 ]
+    then echo "Reverter palavras com REV e IF"
+        echo ""
+
         rev_p=nao
         if [[ $# > 1 ]]
         then
@@ -481,16 +519,18 @@ do
 
         echo "Sua palavra revertida é:"
         rev <<< $pala
+        echo "Total de caracteres: ${#pala}"
 
         echo ""
         num=0
 
-    elif [ $num -eq 14 ]
-    then
+    elif [ $num -eq 13 ]
+    then echo "Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
+        echo ""
 
-    mostrar_param $@
-    echo ""
-    num=0
+        shift_param $@
+        echo ""
+        num=0
 
     elif [ $num -eq 0 ]
     then
