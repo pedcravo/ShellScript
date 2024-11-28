@@ -625,6 +625,7 @@ do
         then
             repete=1
         else
+            echo "Cli feito por @pedcravo"
             echo "Cabô"
             exit 0
         fi

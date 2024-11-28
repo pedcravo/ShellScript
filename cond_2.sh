@@ -600,6 +600,7 @@ do
 
             if [[ ${sair,,} = sair || ${sair,,} = sim || ${sair,,} = s || ${sair,,} = yes || ${sair,,} = y ]]
             then
+                echo "Cli feito por @pedcravo"
                 echo "Cabô"
                 repete=0
             fi
