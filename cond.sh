@@ -2,6 +2,9 @@
 # ./cond.sh para executar o shell
 
 source biblioteca.sh || { echo "Erro ao carregar biblioteca.sh"; exit 1; }
+source inventario.sh || { echo "Erro ao carregar inventario.sh"; exit 1; }
+source monitorCPU.sh || { echo "Erro ao carregar monitorCPU.sh"; exit 1; }
+source filtrar.sh || { echo "Erro ao carregar filtrar.sh"; exit 1; }
 
 while :
 do
@@ -29,14 +32,18 @@ do
         echo " 8 = Visualizar o que há no arquivo ou diretório com IF, CAT e LS"
         echo " 9 = Criar diretório e arquivo temporários com IF e MKTEMP"
         echo "10 = Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
-        echo "11 = Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
-        echo "12 = Reverter palavras com REV e IF"
-        echo "13 = Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
+        echo "11 = Faz backup de arquivos por filtragem com biblioteca, IF e CP"
+        echo "12 = Mostra o uso do diretório atual e tudo que há nele com biblioteca"
+        echo "13 = Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
+        echo "14 = Monitor de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
+        echo "15 = Reverter palavras com REV e IF"
+        echo "16 = Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
+        echo "17 = Mostrar o ID do usuário atual"
         echo " 0 = Sair"
         read num
         echo ""
 
-        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 0 ]
+        if [ $num -eq 1 -o $num -eq 2 -o $num -eq 3 -o $num -eq 4 -o $num -eq 5 -o $num -eq 6 -o $num -eq 7 -o $num -eq 8 -o $num -eq 9 -o $num -eq 10 -o $num -eq 11 -o $num -eq 12 -o $num -eq 13 -o $num -eq 14 -o $num -eq 15 -o $num -eq 16 -o $num -eq 17 -o $num -eq 0 ]
         then repete=0    
         else
             repete=1
@@ -311,13 +318,11 @@ do
 
             mkdir ${PWD}/${diretorio}
             mkdir_rc=$?
-            echo ""
 
             echo "O comando mkdir retornou: $mkdir_rc"
             if [[ $mkdir_rc = 0 ]]
             then
                 echo "Foi possivel criar o diretório $diretorio."
-                echo ""
 
                 test -d ${PWD}/${diretorio}
                 test_rc=$?
@@ -334,15 +339,19 @@ do
             if [[ $test_rc = 0 ]]
             then
                 echo "O diretório $diretorio existe."
+                echo ""
+
+                echo "Qual vai ser o nome do arquivo?"
+                read arquivo
+                echo " "
 
                 touch ${PWD}/${diretorio}/${arquivo}
                 touch_rc=$?
-                echo ""
 
                 echo "O comando touch retornou: ${touch_rc}"
                 if [[ $touch_rc -eq 0 ]]
                 then
-                    echo "Foi possivel criar o arquivo $arquivo."
+                    echo "Arquivo $arquivo criado com sucesso."
                 else
                     echo "Não foi possivel criar o arquivo $arquivo."
                 fi
@@ -351,22 +360,20 @@ do
             fi
 
         else
-            echo "Deseja criar um diretório com o nome $diretorio e um arquivo com $arquivo?"
+            echo "Deseja criar um diretório com o nome $diretorio e um arquivo com nome $arquivo?"
             echo "(Digite \"sim\" para cria-los)"
             read criardir
             echo ""
 
-            if [[ ${criardir,,} != sim && ${criardir,,} != s ]]
+            if [[ ${criardir,,} = sim || ${criardir,,} = s ]]
             then
                 mkdir ${PWD}/${diretorio}
                 mkdir_rc=$?
-                echo ""
 
                 echo "O comando mkdir retornou: $mkdir_rc"
                 if [[ $mkdir_rc = 0 ]]
                 then
                     echo "Foi possivel criar o diretório $diretorio."
-                    echo ""
 
                     test -d ${PWD}/${diretorio}
                     test_rc=$?
@@ -383,15 +390,15 @@ do
                 if [[ $test_rc = 0 ]]
                 then
                     echo "O diretório $diretorio existe."
+                    echo " "
 
                     touch ${PWD}/${diretorio}/${arquivo}
                     touch_rc=$?
-                    echo ""
                     
                     echo "O comando touch retornou: ${touch_rc}"
                     if [[ $touch_rc -eq 0 ]]
                     then
-                        echo "Foi possivel criar o arquivo $arquivo."
+                        echo "Arquivo $arquivo criado com sucesso."
                     else
                         echo "Não foi possivel criar o arquivo $arquivo."
                     fi
@@ -402,7 +409,7 @@ do
             else
                 echo "Seu local atual é ${PWD}"
                 echo "Vamos criar o diretório neste local."
-                echo "Qual\ vai ser o nome do diretório?"
+                echo "Qual vai ser o nome do diretório?"
                 read diretorio
                 echo " "
 
@@ -414,7 +421,6 @@ do
                 if [[ $mkdir_rc = 0 ]]
                 then
                     echo "Foi possivel criar o diretório $diretorio."
-                    echo ""
 
                     test -d ${PWD}/${diretorio}
                     test_rc=$?
@@ -431,15 +437,19 @@ do
                 if [[ $test_rc = 0 ]]
                 then
                     echo "O diretório $diretorio existe."
+                    echo ""
+
+                    echo "Qual vai ser o nome do arquivo?"
+                    read arquivo
+                    echo " "
 
                     touch ${PWD}/${diretorio}/${arquivo}
                     touch_rc=$?
-                    echo ""
 
                     echo "O comando touch retornou: ${touch_rc}"
                     if [[ $touch_rc -eq 0 ]]
                     then
-                        echo "Foi possivel criar o arquivo $arquivo."
+                        echo "Arquivo $arquivo criado com sucesso."
                     else
                         echo "Não foi possivel criar o arquivo $arquivo."
                     fi
@@ -452,6 +462,24 @@ do
         num=0
 
     elif [ $num -eq 11 ]
+    then echo "Faz backup de arquivos por filtragem com biblioteca, IF e CP"
+        echo""
+        
+        filtrar_cp
+
+        echo ""
+        num=0
+
+    elif [ $num -eq 12 ]
+    then echo "Mostra o uso do diretório atual e tudo que há nele com biblioteca"
+        echo""
+        
+        inventario
+        
+        echo ""
+        num=0
+
+    elif [ $num -eq 13 ]
     then echo "Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
         echo""
 
@@ -466,19 +494,57 @@ do
         date +'%A %d/%b/%y'
 
         for (( i=0; i<rep; i++ ))
-        do
+        do  
+            echo ""
             date +%H:%M:%S
             echo "Uso da CPU: $(top -bn1 | grep -i cpu'(s)' | awk '{print $2}')"
             echo "Uso da memória: $(free -h | grep -i mem | awk '{print $3}')"
             echo "Espaço no disco /: $(df -h | grep /$ | awk '{print $4}')"
             echo ""
+
             if (( i!= (rep-1) ))
             then
+                echo "----------------------------------------------------------------------------------------------------------"
+                echo ""
+                echo "Delay de ${seg}s . . ."
                 sleep $seg
+                echo ""
+                echo "----------------------------------------------------------------------------------------------------------"
             fi
         done
         num=0
-    elif [ $num -eq 12 ]
+    
+    elif [ $num -eq 14 ]
+    then echo "Monitor de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
+        echo ""
+    
+        echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
+        echo "OBS: Deve ser > 0"
+        read rep
+        echo ""
+        echo "Qual o intervalo em segundos entre os monitoramentos?"
+        echo "OBS: Ideal que seja > 1"
+        read seg
+
+        for (( i=0; i<rep; i++ ))
+        do  
+            echo ""
+            func_monitorar
+            echo ""
+
+            if (( i!= (rep-1) ))
+            then
+                echo "----------------------------------------------------------------------------------------------------------"
+                echo ""
+                echo "Delay de ${seg}s . . ."
+                sleep $seg
+                echo ""
+                echo "----------------------------------------------------------------------------------------------------------"
+            fi
+        done
+       num=0
+
+    elif [ $num -eq 15 ]
     then echo "Reverter palavras com REV e IF"
         echo ""
 
@@ -524,7 +590,7 @@ do
         echo ""
         num=0
 
-    elif [ $num -eq 13 ]
+    elif [ $num -eq 16 ]
     then echo "Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
         echo ""
 
@@ -532,11 +598,28 @@ do
         echo ""
         num=0
 
+    elif [ $num -eq 17 ]
+    then echo "Mostrar o ID do usuário atual"   
+        echo ""
+        
+        echo "Seu ID: $EUID"
+        echo "Seu usuário é $USER"
+        if [ $EUID -eq 0 ]
+        then
+            echo "Lembre-se que com grandes poderes vem grandes responsabilidades!!"
+        else
+            echo "Você é um usuário comum, fique de boas."
+        fi
+
+        echo ""
+        num=0
+
     elif [ $num -eq 0 ]
-    then
+    then # Sair
+
         echo "Deseja sair?"
         read sair
-        echo ""
+        echo 
 
         if [[ ${sair,,} != sair && ${sair,,} != sim && ${sair,,} != s && ${sair,,} != yes && ${sair,,} != y ]]
         then
