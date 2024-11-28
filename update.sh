@@ -19,7 +19,8 @@ echo "STATUS: $CONFIG"
 if [ -f $CONFIG_FILE ]
 then
     echo "OK"
-    echo "Seguindo par parte 2"
+    echo
+    echo "Continuando..."
     echo
 else
     echo "ERRO"
