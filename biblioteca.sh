@@ -11,9 +11,9 @@ shift_param() {
         param_ini=$#
         while [[ $shift_repete != 0 ]]
         do  
+            param_fim=$#
             echo "Parâmetros iniciais: $param_ini."
-            echo "Total de parâmetros agora: $#."
-            echo ""
+            echo "Total de parâmetros agora: $param_fim."
             echo Lista de parâmetros:
 
             for i in "$@"
@@ -21,35 +21,40 @@ shift_param() {
                 echo $i
             done
             echo ""
-
             echo "Deseja dar shift em quantos deles?"
             read shift_num
             echo ""
-            if [[ $shift_num > $# ]]
+            if [ ${shift_num} -ge  ${param_fim} ]
             then
                 echo "Número maior que a quantidade de parâmetros."
+                sleep 3
                 echo ""
                 shift_repete=1
             else
                 shift $shift_num
-                echo Nova lista de parâmetros:
-                for i in "$@"
-                do
-                    echo $i
-                done
                 
-                echo ""
-                echo "Deseja dar shift novamente?"
-                read shift_conf
-
-                if [[ ${shift_conf,,} != sim && ${shift_conf,,} != s ]]
+                if [[ $# = 0 ]]
                 then
-                    echo "Finalizando código da biblioteca..."
+                    echo "Lista vazia"
                     shift_repete=0
+
                 else
-                    echo "Repetindo..."
+                    echo Nova lista de parâmetros:
+                    for i in "$@"
+                    do
+                        echo $i
+                    done
+                    
                     echo ""
-                    shift_repete=1
+                    echo "Deseja dar shift novamente?"
+                    read shift_conf
+
+                    if [[ ${shift_conf,,} != sim && ${shift_conf,,} != s ]]
+                    then
+                        shift_repete=0
+                    else
+                        shift_repete=1
+                    fi
                 fi
             fi
         done
