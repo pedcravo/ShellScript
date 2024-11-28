@@ -9,7 +9,7 @@ source filtrar.sh || { echo "Erro ao carregar filtrar.sh"; exit 1; }
 repete=1
 while [ "$repete" != 0 ]
 do
-    #clear
+    clear
     
     echo ""
     echo "__________               .__             .__  .__ "
@@ -17,7 +17,7 @@ do
     echo " |    |  _/\__  \  /  ___/  |  \  _/ ___\|  | |  |"
     echo " |    |   \ / __ \_\___ \|   Y  \ \  \___|  |_|  |"  # Arte feita com: https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Bash%20cli
     echo " |______  /(____  /____  >___|  /  \___  >____/__|"
-    echo "        \/      \/     \/     \/       \/         "
+    echo "        \/      \/     \/     \/       \/         2.0 "
     echo ""
 
     echo "Digite uma opção:"
@@ -33,8 +33,8 @@ do
     echo "10 = Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
     echo "11 = Faz backup de arquivos por filtragem com biblioteca, IF e CP"
     echo "12 = Mostra o uso do diretório atual e tudo que há nele com biblioteca"
-    echo "13 = Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
-    echo "14 = Monitor de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
+    echo "13 = Monitor veloz e prático de status da CPU, memória e espaço no disco com comandos encadeiados"
+    echo "14 = Monitor eficiente e completo de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
     echo "15 = Reverter palavras com REV e IF"
     echo "16 = Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
     echo "17 = Mostrar o ID do usuário atual"
@@ -43,8 +43,7 @@ do
     echo ""
 
     case "$num" in
-        1)  echo "História com IF e parâmetros prédefinidos"
-            echo ""
+        1)  echo " 1 = História com IF e parâmetros prédefinidos"
 
             char=$1
             local=$2
@@ -64,8 +63,7 @@ do
             echo ""
             num=0
         ;;
-        2)  echo "História parâmetros prédefinidos e padrão"
-            echo ""
+        2)  echo " 2 = História parâmetros prédefinidos e padrão"
 
             char=${1:-Pedro}
             local=${2:-Vv}
@@ -79,8 +77,7 @@ do
             echo ""
             num=0
         ;;
-        3)  echo "Contador de parâmetros e caracteres com FOR"
-            echo ""
+        3)  echo " 3 = Contador de parâmetros e caracteres com FOR"
 
             echo O primeiro parâmetros é ${1:?Parâmetro 1 não fornecido!}
             echo O segundo parâmetros é ${2:?Parâmentro 2 não fornecido!}
@@ -98,8 +95,7 @@ do
             echo ""
             num=0
         ;;
-        4)  echo "Contador decrescente com FOR"
-            echo ""
+        4)  echo " 4 = Contador decrescente com FOR"
 
             for (( COUNTER=100; COUNTER>0; COUNTER-- )) do
                 if [ $COUNTER -eq 50 ]
@@ -112,8 +108,7 @@ do
             echo ""
             num=0
         ;;
-        5)  echo "Contador crescente com WHILE"
-            echo ""
+        5)  echo " 5 = Contador crescente com WHILE"
             
             i=1
             while (( $i <= 100 ))
@@ -129,8 +124,7 @@ do
             echo ""
             num=0
         ;;
-        6)  echo "Loop de cli com WHILE"
-            echo ""
+        6)  echo " 6 = Loop de cli com WHILE"
             
             string_repete=loop
             i=1
@@ -147,8 +141,7 @@ do
             echo ""
             num=0
         ;;            
-        7)  echo "Verificar se arquivo ou diretório existe IF"
-            echo ""
+        7)  echo " 7 = Verificar se arquivo ou diretório existe IF"
 
             echo "Seu diretório atual é $PWD"
             echo "Me diga o caminho do diretório ou arquivo e te direi se ele existe:"
@@ -178,9 +171,8 @@ do
             echo ""
             num=0
         ;;
-        8)  echo "Visualizar o que há no arquivo ou diretório com IF, CAT e LS"
-            echo ""
-
+        8)  echo " 8 = Visualizar o que há no arquivo ou diretório com IF, CAT e LS"
+    
             echo "Seu diretório atual é ${PWD}"
             echo "Use ele como exemplo para escrever o caminho do arquivo ou diretório."
             echo "Qual o arquivo ou diretório?"
@@ -201,9 +193,8 @@ do
             echo ""
             num=0
         ;;
-        9)  echo "Criar diretório e arquivo temporários com IF e MKTEMP"
-            echo ""
-
+        9)  echo " 9 = Criar diretório e arquivo temporários com IF e MKTEMP"
+    
             echo "Deseja criar um diretório temp, um arquivo temp ou os dois?"
             echo "dir = Diretório temporário"
             echo "arq = Arquivo temporário"
@@ -286,8 +277,7 @@ do
             echo ""
             num=0
         ;;
-        10) echo "Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
-            echo ""
+        10) echo "10 = Criar diretório e arquivo no local ${PWD} com IF, MKDIR e TOUCH"
 
             diretorio=$1
             arquivo=$2
@@ -445,24 +435,21 @@ do
             echo ""
             num=0
         ;;
-        11) echo "Faz backup de arquivos por filtragem com biblioteca, IF e CP"
-            echo""
-            
+        11) echo "11 = Faz backup de arquivos por filtragem com biblioteca, IF e CP"
+              
             filtrar_cp
 
             echo ""
             num=0
         ;;
-        12) echo "Mostra o uso do diretório atual e tudo que há nele com biblioteca"
-            echo""
-            
+        12) echo "12 = Mostra o uso do diretório atual e tudo que há nele com biblioteca"
+    
             inventario
             
             echo ""
             num=0
         ;;
-        13) echo "Monitor de status da CPU, memória e espaço no disco com comandos encadeiados"
-            echo""
+        13) echo "13 = Monitor veloz e prático de status da CPU, memória e espaço no disco com comandos encadeiados"
 
             echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
             echo "OBS: Deve ser > 0"
@@ -495,8 +482,7 @@ do
             done
             num=0
         ;;            
-        14) echo "Monitor de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
-            echo ""
+        14) echo "14 = Monitor eficiente e completo de CPU, RAM, SWAP, disco e banda com biblioteca e SAR"
         
             echo "Quantas vezes gostaria de repetir o monitoramento da CPU?"
             echo "OBS: Deve ser > 0"
@@ -524,9 +510,8 @@ do
             done
             num=0
         ;;
-        15) echo "Reverter palavras com REV e IF"
-            echo ""
-
+        15) echo "15 = Reverter palavras com REV e IF"
+    
             rev_p=nao
             if [[ $# > 1 ]]
             then
@@ -569,15 +554,13 @@ do
             echo ""
             num=0
         ;;
-        16) echo "Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
-            echo ""
+        16) echo "16 = Mostrar e apagar parâmetros com biblioteca importada, função e SHIFT"
 
             shift_param $@
             echo ""
             num=0
         ;;
-        17) echo "Mostrar o ID do usuário atual"   
-            echo ""
+        17) echo "17 = Mostrar o ID do usuário atual"   
             
             echo "Seu ID: $EUID"
             echo "Seu usuário é $USER"
@@ -594,7 +577,7 @@ do
     esac
         if [ $num -eq 0 ]
         then
-            echo "Deseja sair?"
+            echo "Deseja sair e fechar o cli?"
             read sair
             echo 
 

@@ -617,7 +617,7 @@ do
     elif [ $num -eq 0 ]
     then # Sair
 
-        echo "Deseja sair?"
+        echo "Deseja sair e fechar o cli??"
         read sair
         echo 
 

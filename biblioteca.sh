@@ -5,7 +5,7 @@ shift_param() {
     
     if [[ $# -lt 1 ]]
     then 
-        echo "Menos de um parâmetro recebido"
+        echo "Nenhum parâmetro recebido"
         
     else
         param_ini=$#
