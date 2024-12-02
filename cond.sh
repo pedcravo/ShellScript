@@ -15,7 +15,7 @@ do
         echo ""
         echo "__________               .__             .__  .__ "
         echo "\______   \_____    _____|  |__     ____ |  | |__|"
-        echo " |    |  _/\__  \  /  ___/  |  \  _/ ___\|  | |  |"
+        echo " |    |  _/\__  \  /  ___/  |  \  _/ ___\|  | |  |"  # Documentação: https://mange.ifrn.edu.br/shell-script-wikipedia/20-operadores-relacionais.html
         echo " |    |   \ / __ \_\___ \|   Y  \ \  \___|  |_|  |"  # Arte feita com: https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Bash%20cli
         echo " |______  /(____  /____  >___|  /  \___  >____/__|"
         echo "        \/      \/     \/     \/       \/         "
