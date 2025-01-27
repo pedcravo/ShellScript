@@ -13,15 +13,15 @@ do
         cd
         pwd
         echo "Insira o caminho para o repositório Git ou digite 'sair':"
-        read local;
+        read -e local;
         ls -la "$local" 2>/dev/null || { if [[ $local == "sair" ]]; then echo "Saindo.."; else echo "Diretório inválido!"; fi; }
     else
         cd ${local}
         echo "Monitorando repositório: $local"
         while true; do
             git --no-pager log --oneline --graph --all || exit 1
-            sleep 360
-            clear
+            sleep 120
+            #clear
         done
     fi
 done
