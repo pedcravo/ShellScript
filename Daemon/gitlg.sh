@@ -22,7 +22,7 @@ do
             ##git --no-pager log --oneline --graph --all -n 35 || exit 1
             git --no-pager log --graph --all -n 10 || exit 1
             sleep 120
-            #clear
+            clear
         done
     fi
 done
